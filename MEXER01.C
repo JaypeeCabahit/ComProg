@@ -1,21 +1,20 @@
 #include <stdio.h>
-#include <math.h>
 
 int main() {
     int distance;
-    double fare = 20.00;
+    double totalFare = 20.00;
 
-    printf("Enter distance in meters: ");
+    printf("Input the distance traveled in meters: ");
     scanf("%d", &distance);
 
     if (distance > 300) {
-        int extra_distance = distance - 300;
-        int increments = (extra_distance + 199) / 200; // Ceiling division
-        fare += increments * 2.00;
-        fare -= 2.00; // Apply discount
+        int remainingDistance = distance - 300;
+        int additionalIncrements = (remainingDistance + 199) / 200; // Calculate the number of 200-meter increments
+        totalFare += additionalIncrements * 2.00;
+        totalFare -= 2.00; // Apply a discount
     }
 
-    printf("P %.2f\n", fare);
+    printf("Total fare is: P %.2f\n", totalFare);
 
     return 0;
 }
