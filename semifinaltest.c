@@ -92,28 +92,38 @@ void convertToWords(int num, char *result) {
     char *ones[] = {"", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"};
     char *teens[] = {"Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
     char *tens[] = {"", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"};
-    char *thousands[] = {"", "Thousand"};
 
-    int thousand = num / 1000;
-    int hundred = (num / 100) % 10;
-    int ten = (num / 10) % 10;
-    int one = num % 10;
-
-    if (thousand > 0) {
-        strcat(result, ones[thousand]);
+    int tenThousands = (num / 10000) % 10;
+    int thousands = (num / 1000) % 10;
+    int hundreds = (num / 100) % 10;
+    int tensPlace = (num / 10) % 10;
+    int onesPlace = num % 10;
+    
+    if (tenThousands > 1) {
+        strcat(result, tens[tenThousands]);
+        strcat(result, "_");
+        strcat(result, ones[thousands]);
+        strcat(result, "_Thousand_");
+    } else if (tenThousands == 1) {
+        strcat(result, teens[thousands]);
+        strcat(result, "_Thousand_");
+    } else if (thousands > 0) {
+        strcat(result, ones[thousands]);
         strcat(result, "_Thousand_");
     }
-    if (hundred > 0) {
-        strcat(result, ones[hundred]);
+
+    if (hundreds > 0) {
+        strcat(result, ones[hundreds]);
         strcat(result, "_Hundred_");
     }
-    if (ten > 1) {
-        strcat(result, tens[ten]);
+
+    if (tensPlace > 1) {
+        strcat(result, tens[tensPlace]);
         strcat(result, "_");
-        strcat(result, ones[one]);
-    } else if (ten == 1) {
-        strcat(result, teens[one]);
+        strcat(result, ones[onesPlace]);
+    } else if (tensPlace == 1) {
+        strcat(result, teens[onesPlace]);
     } else {
-        strcat(result, ones[one]);
+        strcat(result, ones[onesPlace]);
     }
 }
