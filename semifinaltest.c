@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-void convertToWords(int num, char *result);
+char* convertToWords(int num);
 
 int main() {
     char studentID[20];
@@ -46,8 +46,15 @@ int main() {
     scanf("%d", &course);
     printf("Enter Year (1 to 5): ");
     scanf("%d", &year);
-    printf("Enter Number of Subjects Enrolled: ");
-    scanf("%d", &subjectsEnrolled);
+
+    /* Input and validate number of subjects enrolled */
+    do {
+        printf("Enter Number of Subjects Enrolled (Maximum 10): ");
+        scanf("%d", &subjectsEnrolled);
+        if (subjectsEnrolled > 10) {
+            printf("Error! You cannot enroll in more than 10 subjects.\n");
+        }
+    } while (subjectsEnrolled > 10);
 
     /* Calculate total units and total tuition */
     totalUnits = subjectsEnrolled * 3; // 3 units per subject
@@ -69,7 +76,7 @@ int main() {
     } while (amountTendered < totalAssessment);
 
     /* Convert total assessment to words */
-    convertToWords((int)totalAssessment, amountInWords);
+    strcpy(amountInWords, convertToWords((int)totalAssessment));
 
     /* Print the official receipt */
     printf("\n\nUniversity of Cebu – Main Campus\n");
@@ -87,8 +94,11 @@ int main() {
     return 0;
 }
 
-/* Helper function to convert numbers to words */
-void convertToWords(int num, char *result) {
+/* Function to convert numbers to words */
+char* convertToWords(int num) {
+    static char result[200] = "";  // Static buffer to hold the result
+    strcpy(result, "");  // Clear the buffer before use
+
     char *ones[] = {"", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"};
     char *teens[] = {"Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
     char *tens[] = {"", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"};
@@ -98,7 +108,8 @@ void convertToWords(int num, char *result) {
     int hundreds = (num / 100) % 10;
     int tensPlace = (num / 10) % 10;
     int onesPlace = num % 10;
-    
+
+    // Handle ten-thousands and thousands place
     if (tenThousands > 1) {
         strcat(result, tens[tenThousands]);
         strcat(result, "_");
@@ -112,11 +123,13 @@ void convertToWords(int num, char *result) {
         strcat(result, "_Thousand_");
     }
 
+    // Handle hundreds place
     if (hundreds > 0) {
         strcat(result, ones[hundreds]);
         strcat(result, "_Hundred_");
     }
 
+    // Handle tens and ones place
     if (tensPlace > 1) {
         strcat(result, tens[tensPlace]);
         strcat(result, "_");
@@ -126,4 +139,6 @@ void convertToWords(int num, char *result) {
     } else {
         strcat(result, ones[onesPlace]);
     }
+
+    return result;
 }
