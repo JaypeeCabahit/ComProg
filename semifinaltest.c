@@ -89,8 +89,6 @@ int main() {
 
 char* convertToWords(int num) {
     static char result[200] = "";
-    strcpy(result, "");
-
     char *ones[] = {"", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"};
     char *teens[] = {"Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
     char *tens[] = {"", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"};
@@ -100,6 +98,8 @@ char* convertToWords(int num) {
     int hundreds = (num / 100) % 10;
     int tensPlace = (num / 10) % 10;
     int onesPlace = num % 10;
+
+    strcpy(result, "");
 
     if (tenThousands > 1) {
         strcat(result, tens[tenThousands]);
