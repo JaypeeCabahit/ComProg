@@ -45,13 +45,22 @@ int main() {
     printf("Enter Year (1 to 5): ");
     scanf("%d", &year);
 
-    do {
-        printf("Enter Number of Subjects Enrolled (Maximum 10): ");
-        scanf("%d", &subjectsEnrolled);
-        if (subjectsEnrolled > 10) {
-            printf("Error! You cannot enroll in more than 10 subjects.\n");
-        }
-    } while (subjectsEnrolled > 10);
+    subjectsEnrolled = 0;
+    switch (subjectsEnrolled > 10) {
+        case 0:
+            printf("Enter Number of Subjects Enrolled (Maximum 10): ");
+            scanf("%d", &subjectsEnrolled);
+            switch (subjectsEnrolled > 10) {
+                case 1:
+                    printf("Error! You cannot enroll in more than 10 subjects.\n");
+                    break;
+                default:
+                    break;
+            }
+            break;
+        default:
+            break;
+    }
 
     totalUnits = subjectsEnrolled * 3;
     totalTuition = totalUnits * tuitionPerUnit;
@@ -61,14 +70,22 @@ int main() {
 
     totalAssessment = totalTuition + registrationFee + miscellaneousFee + laboratoryFee;
 
-    do {
-        printf("Enter Amount Tendered (Must be no less than %.2f): ", totalAssessment);
-        scanf("%f", &amountTendered);
-        
-        if (amountTendered < totalAssessment) {
-            printf("Error! Your amount tendered must be NO LESS than the total assessment of %.2f.\n", totalAssessment);
-        }
-    } while (amountTendered < totalAssessment);
+    amountTendered = 0.0;
+    switch (amountTendered < totalAssessment) {
+        case 1:
+            printf("Enter Amount Tendered (Must be no less than %.2f): ", totalAssessment);
+            scanf("%f", &amountTendered);
+            switch (amountTendered < totalAssessment) {
+                case 1:
+                    printf("Error! Your amount tendered must be NO LESS than the total assessment of %.2f.\n", totalAssessment);
+                    break;
+                default:
+                    break;
+            }
+            break;
+        default:
+            break;
+    }
 
     strcpy(amountInWords, convertToWords((int)totalAssessment));
 
@@ -101,32 +118,43 @@ char* convertToWords(int num) {
 
     strcpy(result, "");
 
-    if (tenThousands > 1) {
-        strcat(result, tens[tenThousands]);
-        strcat(result, "_");
-        strcat(result, ones[thousands]);
-        strcat(result, "_Thousand_");
-    } else if (tenThousands == 1) {
-        strcat(result, teens[thousands]);
-        strcat(result, "_Thousand_");
-    } else if (thousands > 0) {
-        strcat(result, ones[thousands]);
-        strcat(result, "_Thousand_");
+    switch (tenThousands) {
+        case 1:
+            strcat(result, teens[thousands]);
+            strcat(result, "_Thousand_");
+            break;
+        default:
+            if (tenThousands > 1) {
+                strcat(result, tens[tenThousands]);
+                strcat(result, "_");
+            }
+            if (thousands > 0) {
+                strcat(result, ones[thousands]);
+                strcat(result, "_Thousand_");
+            }
+            break;
     }
 
-    if (hundreds > 0) {
-        strcat(result, ones[hundreds]);
-        strcat(result, "_Hundred_");
+    switch (hundreds) {
+        case 0:
+            break;
+        default:
+            strcat(result, ones[hundreds]);
+            strcat(result, "_Hundred_");
+            break;
     }
 
-    if (tensPlace > 1) {
-        strcat(result, tens[tensPlace]);
-        strcat(result, "_");
-        strcat(result, ones[onesPlace]);
-    } else if (tensPlace == 1) {
-        strcat(result, teens[onesPlace]);
-    } else {
-        strcat(result, ones[onesPlace]);
+    switch (tensPlace) {
+        case 1:
+            strcat(result, teens[onesPlace]);
+            break;
+        default:
+            if (tensPlace > 1) {
+                strcat(result, tens[tensPlace]);
+                strcat(result, "_");
+            }
+            strcat(result, ones[onesPlace]);
+            break;
     }
 
     return result;
