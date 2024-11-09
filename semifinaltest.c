@@ -25,7 +25,6 @@ int main() {
 
     const float tuitionPerUnit = 450.00;
 
-    /* Set fees based on course selection */
     float registrationFees[] = {545.00, 550.00, 555.00, 560.00};
     float miscellaneousFees[] = {1000.00, 1000.00, 1000.00, 1000.00};
     float laboratoryFees[] = {3000.00, 3500.00, 1500.00, 3000.00};
@@ -33,7 +32,6 @@ int main() {
     printf("University of Cebu – Main Campus\n");
     printf("Student's Accounting System\n\n");
 
-    /* Input student info */
     printf("Enter Student ID Number: ");
     scanf("%s", studentID);
     printf("Enter Firstname: ");
@@ -47,7 +45,6 @@ int main() {
     printf("Enter Year (1 to 5): ");
     scanf("%d", &year);
 
-    /* Input and validate number of subjects enrolled */
     do {
         printf("Enter Number of Subjects Enrolled (Maximum 10): ");
         scanf("%d", &subjectsEnrolled);
@@ -56,8 +53,7 @@ int main() {
         }
     } while (subjectsEnrolled > 10);
 
-    /* Calculate total units and total tuition */
-    totalUnits = subjectsEnrolled * 3; // 3 units per subject
+    totalUnits = subjectsEnrolled * 3;
     totalTuition = totalUnits * tuitionPerUnit;
     registrationFee = registrationFees[course - 1];
     miscellaneousFee = miscellaneousFees[course - 1];
@@ -65,7 +61,6 @@ int main() {
 
     totalAssessment = totalTuition + registrationFee + miscellaneousFee + laboratoryFee;
 
-    /* Prompt for amount tendered, ensuring it meets the minimum requirement */
     do {
         printf("Enter Amount Tendered (Must be no less than %.2f): ", totalAssessment);
         scanf("%f", &amountTendered);
@@ -75,10 +70,8 @@ int main() {
         }
     } while (amountTendered < totalAssessment);
 
-    /* Convert total assessment to words */
     strcpy(amountInWords, convertToWords((int)totalAssessment));
 
-    /* Print the official receipt */
     printf("\n\nUniversity of Cebu – Main Campus\n");
     printf("OFFICIAL RECEIPT\n\n");
     printf("ID #: %s\n", studentID);
@@ -94,10 +87,9 @@ int main() {
     return 0;
 }
 
-/* Function to convert numbers to words */
 char* convertToWords(int num) {
-    static char result[200] = "";  // Static buffer to hold the result
-    strcpy(result, "");  // Clear the buffer before use
+    static char result[200] = "";
+    strcpy(result, "");
 
     char *ones[] = {"", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"};
     char *teens[] = {"Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
@@ -109,7 +101,6 @@ char* convertToWords(int num) {
     int tensPlace = (num / 10) % 10;
     int onesPlace = num % 10;
 
-    // Handle ten-thousands and thousands place
     if (tenThousands > 1) {
         strcat(result, tens[tenThousands]);
         strcat(result, "_");
@@ -123,13 +114,11 @@ char* convertToWords(int num) {
         strcat(result, "_Thousand_");
     }
 
-    // Handle hundreds place
     if (hundreds > 0) {
         strcat(result, ones[hundreds]);
         strcat(result, "_Hundred_");
     }
 
-    // Handle tens and ones place
     if (tensPlace > 1) {
         strcat(result, tens[tensPlace]);
         strcat(result, "_");
